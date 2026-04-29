@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Utility functions for predictable data normalization and transformation",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
