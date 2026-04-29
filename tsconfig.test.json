@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "types": ["node", "vitest/globals"],
+    "skipLibCheck": true
+  },
+  "include": ["tests", "vitest.config.ts", "src"]
+}

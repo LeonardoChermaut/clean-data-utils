@@ -1,0 +1,17 @@
+src/
+tests/
+*.ts
+!tsconfig.json
+.eslintrc.js
+jest.config.ts
+vite.config.ts
+tailwind.config.ts
+postcss.config.js
+.eslintignore
+.prettierrc
+.env
+.env.*
+CHANGELOG.md
+docs/
+.coverage
+.nyc_output
