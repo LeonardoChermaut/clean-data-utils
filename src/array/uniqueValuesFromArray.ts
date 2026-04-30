@@ -13,12 +13,9 @@
  */
 export const uniqueValuesFromArray = <TElement>(
   values: TElement[],
-  comparator: (elementOne: TElement, elementTwo: TElement) => boolean = (
-    elementOne,
-    elementTwo,
-  ) => elementOne === elementTwo,
+  comparator: (elementOne: TElement, elementTwo: TElement) => boolean = (elementOne, elementTwo) =>
+    elementOne === elementTwo,
 ): TElement[] =>
   values.filter(
-    (value, index, array) =>
-      array.findIndex((other) => comparator(value, other)) === index,
+    (value, index, array) => array.findIndex((other) => comparator(value, other)) === index,
   );

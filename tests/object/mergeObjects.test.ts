@@ -23,7 +23,10 @@ describe("mergeObjects", () => {
   it("defensive with frozen objects", () => {
     const frozenBase = Object.freeze({ baseProperty: 1 });
     const frozenOverride = Object.freeze({ overrideProperty: 2 });
-    expect(mergeObjects(frozenBase, frozenOverride)).toEqual({ baseProperty: 1, overrideProperty: 2 });
+    expect(mergeObjects(frozenBase, frozenOverride)).toEqual({
+      baseProperty: 1,
+      overrideProperty: 2,
+    });
   });
 
   it("handles empty base", () =>

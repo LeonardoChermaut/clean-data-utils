@@ -8,13 +8,7 @@ describe("removeNullOrUndefinedValuesFromArray", () => {
   const emptyArray: unknown[] = [];
 
   it("removes null and undefined but preserves 0, false, and empty string", () =>
-    expect(removeNullOrUndefinedValuesFromArray(mixedValues)).toEqual([
-      0,
-      "a",
-      false,
-      "",
-      "b",
-    ]));
+    expect(removeNullOrUndefinedValuesFromArray(mixedValues)).toEqual([0, "a", false, "", "b"]));
 
   it("returns an empty array when all values are null or undefined", () =>
     expect(removeNullOrUndefinedValuesFromArray(allNullish)).toEqual([]));

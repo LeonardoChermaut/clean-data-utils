@@ -8,11 +8,9 @@ describe("normalizeWhitespace", () => {
   it("handles string with no extra whitespace", () =>
     expect(normalizeWhitespace("hello")).toBe("hello"));
 
-  it("handles empty string", () =>
-    expect(normalizeWhitespace("")).toBe(""));
+  it("handles empty string", () => expect(normalizeWhitespace("")).toBe(""));
 
-  it("handles string with only whitespace", () =>
-    expect(normalizeWhitespace("   ")).toBe(""));
+  it("handles string with only whitespace", () => expect(normalizeWhitespace("   ")).toBe(""));
 
   it("handles tabs and newlines", () =>
     expect(normalizeWhitespace("\thello\tworld\n")).toBe("hello world"));

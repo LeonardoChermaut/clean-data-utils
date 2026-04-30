@@ -6,6 +6,5 @@ import { isTruthyValue } from "@/predicates";
  * @example
  * removeFalsyValuesFromArray([0, 1, 2, false, true, null, undefined, "", "hello"]); // [1, 2, true, "hello"]
  */
-export const removeFalsyValuesFromArray = <TElement>(
-  values: TElement[],
-): TElement[] => values.filter(isTruthyValue);
+export const removeFalsyValuesFromArray = <TElement>(values: TElement[]): TElement[] =>
+  values.filter(isTruthyValue);

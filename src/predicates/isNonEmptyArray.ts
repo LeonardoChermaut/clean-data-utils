@@ -10,6 +10,5 @@
  * // Output: true
  * ```
  */
-export const isNonEmptyArray = <TElement>(
-  value: unknown,
-): value is TElement[] => Array.isArray(value) && value.length > 0;
+export const isNonEmptyArray = <TElement>(value: unknown): value is TElement[] =>
+  Array.isArray(value) && value.length > 0;
