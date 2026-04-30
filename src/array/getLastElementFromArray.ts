@@ -11,10 +11,7 @@
  * // Output: 5
  * ```
  */
-const getLastElementFromArray = <ElementType>(
-  values: ElementType[],
-): ElementType | undefined => {
-  return values[values.length - 1];
-};
-
-export { getLastElementFromArray };
+export const getLastElementFromArray = <TElement>(
+  values: TElement[],
+): TElement | undefined =>
+  values.length > 0 ? values[values.length - 1] : undefined;

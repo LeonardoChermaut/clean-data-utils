@@ -1,20 +1,21 @@
 import { isUndefined } from "@/predicates";
-
 /**
  * Removes all properties with undefined values from an object.
  * @param sourceObject - The object to process.
  * @returns A new object with all undefined properties removed.
  * @example
+ * ```ts
  * removeUndefinedPropertiesFromObject({ a: 1, b: undefined, c: 3 }); // { a: 1, c: 3 }
+ * ```
  */
-const removeUndefinedPropertiesFromObject = <
-  ObjectType extends Record<string, unknown>,
+export const removeUndefinedPropertiesFromObject = <
+  TObject extends Record<string, unknown>,
 >(
-  sourceObject: ObjectType,
-): Partial<ObjectType> => {
+  sourceObject: TObject,
+): Partial<TObject> => {
   const entries = Object.entries(sourceObject) as [
-    keyof ObjectType,
-    ObjectType[keyof ObjectType],
+    keyof TObject,
+    TObject[keyof TObject],
   ][];
 
   return entries.reduce((accumulator, [key, value]) => {
@@ -23,7 +24,5 @@ const removeUndefinedPropertiesFromObject = <
     }
 
     return accumulator;
-  }, {} as Partial<ObjectType>);
+  }, {} as Partial<TObject>);
 };
-
-export { removeUndefinedPropertiesFromObject };

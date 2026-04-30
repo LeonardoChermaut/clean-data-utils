@@ -11,10 +11,6 @@
  * // Output: true
  * ```
  */
-const isNullOrUndefined = <ValueType>(
+export const isNullOrUndefined = <ValueType>(
   value: ValueType | null | undefined,
-): value is null | undefined => {
-  return value === null || value === undefined;
-};
-
-export { isNullOrUndefined };
+): value is null | undefined => value === null || value === undefined;
