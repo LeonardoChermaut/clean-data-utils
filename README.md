@@ -36,15 +36,22 @@ import {
   uniqueValuesFromArray,
   groupArrayByKey,
   chunkArray,
+  partitionArray,
+  differenceBetweenArrays,
   removeUndefinedPropertiesFromObject,
   pickPropertiesFromObject,
   omitPropertiesFromObject,
   mapObjectValues,
   mergeObjects,
   hasDefinedProperty,
+  hasOwnProperty,
+  getDefinedPropertiesFromObject,
   splitStringAndRemoveEmptySegments,
   normalizeWhitespace,
   truncateString,
+  ensurePrefix,
+  ensureSuffix,
+  removePrefix,
   isTruthyValue,
   isNullOrUndefined,
   isUndefined,
@@ -231,6 +238,48 @@ chunkArray([], 3);
 
 ---
 
+#### `partitionArray<TElement>`
+
+```typescript
+const partitionArray = <TElement>(
+  values: TElement[],
+  predicate: (value: TElement) => boolean
+): [TElement[], TElement[]] => ...
+```
+
+Partitions an array into two arrays based on a predicate. The first array contains elements that match, the second contains elements that don't.
+
+```typescript
+partitionArray([1, 2, 3, 4, 5], (n) => n > 2);
+// → [[3, 4, 5], [1, 2]]
+
+partitionArray([1, 2, 3], () => false);
+// → [[], [1, 2, 3]]
+```
+
+---
+
+#### `differenceBetweenArrays<TElement>`
+
+```typescript
+const differenceBetweenArrays = <TElement>(
+  base: TElement[],
+  compare: TElement[]
+): TElement[] => ...
+```
+
+Returns elements that are in the base array but not in the compare array.
+
+```typescript
+differenceBetweenArrays([1, 2, 3, 4, 5], [2, 4]);
+// → [1, 3, 5]
+
+differenceBetweenArrays([1, 2, 3], [1, 2, 3]);
+// → []
+```
+
+---
+
 ### Object
 
 ---
@@ -364,6 +413,47 @@ hasDefinedProperty(user, "age"); // → false
 
 ---
 
+#### `hasOwnProperty<TObject, TKey>`
+
+```typescript
+const hasOwnProperty = <TObject extends Record<string, unknown>, TKey extends PropertyKey>(
+  sourceObject: TObject,
+  key: TKey
+): key is Extract<TKey, keyof TObject> => ...
+```
+
+Type-safe check that a key exists on an object (regardless of its value). Unlike `hasDefinedProperty`, this returns `true` even for `undefined` values.
+
+```typescript
+const user = { name: "Alice", age: undefined };
+
+hasOwnProperty(user, "name"); // → true
+hasOwnProperty(user, "age"); // → true
+hasOwnProperty(user, "role"); // → false
+```
+
+---
+
+#### `getDefinedPropertiesFromObject<TObject>`
+
+```typescript
+const getDefinedPropertiesFromObject = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject
+): Partial<{ [K in keyof TObject]: Exclude<TObject[K], undefined> }> => ...
+```
+
+Returns a new object containing only properties that are not `undefined`. Preserves `null` values.
+
+```typescript
+getDefinedPropertiesFromObject({ a: 1, b: undefined, c: "hello" });
+// → { a: 1, c: "hello" }
+
+getDefinedPropertiesFromObject({ a: null, b: undefined });
+// → { a: null }
+```
+
+---
+
 ### String
 
 ---
@@ -431,6 +521,69 @@ truncateString("Hi", 10);
 
 truncateString("Hello, world!", 5, " →");
 // → "Hello →"
+```
+
+---
+
+#### `ensurePrefix<TSource>`
+
+```typescript
+const ensurePrefix = <TSource extends string>(
+  sourceString: TSource,
+  prefix: string
+): TSource => ...
+```
+
+Ensures a string starts with the given prefix. If the prefix is already present, returns the string unchanged.
+
+```typescript
+ensurePrefix("hello", "prefix:");
+// → "prefix:hello"
+
+ensurePrefix("prefix:hello", "prefix:");
+// → "prefix:hello" (unchanged)
+```
+
+---
+
+#### `ensureSuffix<TSource>`
+
+```typescript
+const ensureSuffix = <TSource extends string>(
+  sourceString: TSource,
+  suffix: string
+): TSource => ...
+```
+
+Ensures a string ends with the given suffix. If the suffix is already present, returns the string unchanged.
+
+```typescript
+ensureSuffix("filename", ".txt");
+// → "filename.txt"
+
+ensureSuffix("filename.txt", ".txt");
+// → "filename.txt" (unchanged)
+```
+
+---
+
+#### `removePrefix<TSource>`
+
+```typescript
+const removePrefix = <TSource extends string>(
+  sourceString: TSource,
+  prefix: string
+): TSource => ...
+```
+
+Removes a prefix from a string if present. If the prefix is not at the start, returns the string unchanged.
+
+```typescript
+removePrefix("prefix:hello", "prefix:");
+// → "hello"
+
+removePrefix("hello", "prefix:");
+// → "hello" (unchanged)
 ```
 
 ---
@@ -571,10 +724,17 @@ predicates/isNullOrUndefined
 
 predicates/isUndefined
   ├─ consumed by → object/removeUndefinedPropertiesFromObject
+  ├─ consumed by → object/getDefinedPropertiesFromObject
+  └─ consumed by → object/hasDefinedProperty
+
+predicates/isDefinedValue
   └─ consumed by → object/hasDefinedProperty
 
 array/removeFalsyValuesFromArray
   └─ consumed by → string/splitStringAndRemoveEmptySegments
+
+array/uniqueValuesFromArray
+  └─ consumed by → array/differenceBetweenArrays
 ```
 
 No function re-implements logic that already exists elsewhere in the codebase.
