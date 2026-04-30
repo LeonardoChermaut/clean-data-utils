@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "./isNullOrUndefined";
 /**
  * Checks if a value is defined (not null or undefined).
  * This is the inverse of isNullOrUndefined.
@@ -11,7 +12,6 @@
  * // Output: true
  * ```
  */
-import { isNullOrUndefined } from "./isNullOrUndefined";
 
 export const isDefinedValue = <T>(value: T | null | undefined): value is T =>
   !isNullOrUndefined(value);
