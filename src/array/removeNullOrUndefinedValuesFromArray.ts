@@ -8,5 +8,4 @@ import { isNullOrUndefined } from "@/predicates";
  */
 export const removeNullOrUndefinedValuesFromArray = <TElement>(
   values: (TElement | null | undefined)[],
-): TElement[] =>
-  values.filter((value): value is TElement => !isNullOrUndefined(value));
+): TElement[] => values.filter((value): value is TElement => !isNullOrUndefined(value));

@@ -1,5 +1,7 @@
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import prettierConfig from "eslint-config-prettier";
+import prettierPlugin from "eslint-plugin-prettier";
 
 export default [
   {
@@ -14,8 +16,11 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tseslint,
+      prettier: prettierPlugin,
     },
     rules: {
+      "prettier/prettier": "error",
+
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unsafe-assignment": "error",
       "@typescript-eslint/no-unsafe-call": "error",
@@ -40,24 +45,27 @@ export default [
         },
       ],
 
-      "func-style": ["error", "expression", { allowArrowFunctions: true }],
-      "prefer-arrow-callback": "error",
+       "func-style": ["error", "expression", { allowArrowFunctions: true }],
+       "prefer-arrow-callback": "error",
 
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["../*"],
-              message: "Use the @ alias instead of relative cross-domain imports.",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ["tests/**/*.ts"],
+       "curly": ["error", "all"],
+       "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+
+       "no-restricted-imports": [
+         "error",
+         {
+           patterns: [
+             {
+               group: ["../*"],
+               message: "Use the @ alias instead of relative cross-domain imports.",
+             },
+           ],
+         },
+       ],
+     },
+   },
+   {
+     files: ["tests/**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -67,8 +75,11 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tseslint,
+      prettier: prettierPlugin,
     },
     rules: {
+      "prettier/prettier": "error",
+
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-call": "off",
@@ -93,20 +104,24 @@ export default [
         },
       ],
 
-      "func-style": ["error", "expression", { allowArrowFunctions: true }],
-      "prefer-arrow-callback": "error",
+       "func-style": ["error", "expression", { allowArrowFunctions: true }],
+       "prefer-arrow-callback": "error",
 
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["../*"],
-              message: "Use the @ alias instead of relative cross-domain imports.",
-            },
-          ],
-        },
-      ],
+       "curly": ["error", "all"],
+       "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+
+       "no-restricted-imports": [
+         "error",
+         {
+           patterns: [
+             {
+               group: ["../*"],
+               message: "Use the @ alias instead of relative cross-domain imports.",
+             },
+           ],
+         },
+       ],
+      },
     },
-  },
-];
+    prettierConfig,
+  ];

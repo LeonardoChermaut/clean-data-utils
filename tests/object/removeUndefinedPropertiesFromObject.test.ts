@@ -36,9 +36,7 @@ describe("removeUndefinedPropertiesFromObject", () => {
     expect(removeUndefinedPropertiesFromObject(allUndefined)).toEqual({}));
 
   it("returns the full object when no undefined values exist", () =>
-    expect(removeUndefinedPropertiesFromObject(noUndefined)).toEqual(
-      noUndefined,
-    ));
+    expect(removeUndefinedPropertiesFromObject(noUndefined)).toEqual(noUndefined));
 
   it("does not mutate the original object", () => {
     const frozen = Object.freeze({ ...baseObject });

@@ -7,6 +7,5 @@
  * isUndefined(null); // false
  * isUndefined("42"); // false
  */
-export const isUndefined = <ValueType>(
-  value: ValueType | undefined,
-): value is undefined => value === undefined;
+export const isUndefined = <ValueType>(value: ValueType | undefined): value is undefined =>
+  value === undefined;

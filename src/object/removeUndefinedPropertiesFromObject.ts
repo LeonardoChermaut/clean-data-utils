@@ -8,15 +8,10 @@ import { isUndefined } from "@/predicates";
  * removeUndefinedPropertiesFromObject({ a: 1, b: undefined, c: 3 }); // { a: 1, c: 3 }
  * ```
  */
-export const removeUndefinedPropertiesFromObject = <
-  TObject extends Record<string, unknown>,
->(
+export const removeUndefinedPropertiesFromObject = <TObject extends Record<string, unknown>>(
   sourceObject: TObject,
 ): Partial<TObject> => {
-  const entries = Object.entries(sourceObject) as [
-    keyof TObject,
-    TObject[keyof TObject],
-  ][];
+  const entries = Object.entries(sourceObject) as [keyof TObject, TObject[keyof TObject]][];
 
   return entries.reduce((accumulator, [key, value]) => {
     if (!isUndefined(value)) {

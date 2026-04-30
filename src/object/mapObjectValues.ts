@@ -11,10 +11,7 @@
  * // Output: { a: 2, b: 4, c: 6 }
  * ```
  */
-export const mapObjectValues = <
-  TObject extends Record<string, unknown>,
-  TResult,
->(
+export const mapObjectValues = <TObject extends Record<string, unknown>, TResult>(
   sourceObject: TObject,
   transformer: (value: TObject[keyof TObject], key: keyof TObject) => TResult,
 ): Record<keyof TObject, TResult> => {

@@ -11,10 +11,7 @@
  * // Output: [[1, 2, 3], [4, 5, 6], [7]]
  * ```
  */
-export const chunkArray = <TElement>(
-  values: TElement[],
-  chunkSize: number,
-): TElement[][] => {
+export const chunkArray = <TElement>(values: TElement[], chunkSize: number): TElement[][] => {
   if (chunkSize <= 0) {
     return [];
   }

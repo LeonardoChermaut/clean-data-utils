@@ -11,10 +11,7 @@
  * // Output: { a: [{ category: 'a', value: 1 }, { category: 'a', value: 2 }], b: [{ category: 'b', value: 3 }] }
  * ```
  */
-export const groupArrayByKey = <
-  TElement,
-  TKey extends string | number | symbol,
->(
+export const groupArrayByKey = <TElement, TKey extends string | number | symbol>(
   values: TElement[],
   keyExtractor: (element: TElement) => TKey,
 ): Record<TKey, TElement[]> => {

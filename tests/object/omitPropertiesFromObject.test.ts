@@ -4,10 +4,9 @@ import { describe, expect, it } from "vitest";
 describe("omitPropertiesFromObject", () => {
   it("omits specified properties", () =>
     expect(
-      omitPropertiesFromObject(
-        { firstProperty: 1, secondProperty: 2, thirdProperty: 3 },
-        ["secondProperty"],
-      ),
+      omitPropertiesFromObject({ firstProperty: 1, secondProperty: 2, thirdProperty: 3 }, [
+        "secondProperty",
+      ]),
     ).toEqual({
       firstProperty: 1,
       thirdProperty: 3,
@@ -17,7 +16,9 @@ describe("omitPropertiesFromObject", () => {
     expect(omitPropertiesFromObject({ singleProperty: 1 }, ["singleProperty"])).toEqual({}));
 
   it("returns same object when no keys match", () =>
-    expect(omitPropertiesFromObject({ existingProperty: 1 }, ["missingKey"])).toEqual({ existingProperty: 1 }));
+    expect(omitPropertiesFromObject({ existingProperty: 1 }, ["missingKey"])).toEqual({
+      existingProperty: 1,
+    }));
 
   it("defensive with frozen object", () => {
     const frozenObject = Object.freeze({ frozenProperty: 1, keepProperty: 2 });
@@ -31,7 +32,12 @@ describe("omitPropertiesFromObject", () => {
   });
 
   it("handles multiple keys", () =>
-    expect(omitPropertiesFromObject({ firstProperty: 1, secondProperty: 2, thirdProperty: 3 }, ["firstProperty", "thirdProperty"])).toEqual({
+    expect(
+      omitPropertiesFromObject({ firstProperty: 1, secondProperty: 2, thirdProperty: 3 }, [
+        "firstProperty",
+        "thirdProperty",
+      ]),
+    ).toEqual({
       secondProperty: 2,
     }));
 });
