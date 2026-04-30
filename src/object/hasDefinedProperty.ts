@@ -1,3 +1,4 @@
+import { isDefinedValue } from "@/predicates";
 /**
  * Checks if an object has a property with a defined value.
  * @param sourceObject The object to check.
@@ -10,8 +11,6 @@
  * // Output: true
  * ```
  */
-import { isDefinedValue } from "@/predicates";
-
 export const hasDefinedProperty = <
   TObject extends Record<string, unknown>,
   TKey extends keyof TObject,
