@@ -4,3 +4,5 @@ export * from "./omitPropertiesFromObject";
 export * from "./mapObjectValues";
 export * from "./mergeObjects";
 export * from "./hasDefinedProperty";
+export * from "./hasOwnProperty";
+export * from "./getDefinedPropertiesFromObject";

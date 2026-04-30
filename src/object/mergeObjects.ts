@@ -18,7 +18,7 @@ export const mergeObjects = <
 >(
   baseObject: TBase,
   overrideObject: TOverride,
-): TBase & TOverride => ({
+): Omit<TBase, keyof TOverride> & TOverride => ({
   ...baseObject,
   ...overrideObject,
 });

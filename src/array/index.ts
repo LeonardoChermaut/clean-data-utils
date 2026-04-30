@@ -6,3 +6,5 @@ export * from "./flattenArray";
 export * from "./uniqueValuesFromArray";
 export * from "./groupArrayByKey";
 export * from "./chunkArray";
+export * from "./partitionArray";
+export * from "./differenceBetweenArrays";
