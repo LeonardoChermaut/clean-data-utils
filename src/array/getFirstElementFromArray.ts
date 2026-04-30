@@ -14,6 +14,9 @@
 export const getFirstElementFromArray = <TElement>(
   values: TElement[] | null | undefined,
 ): TElement | undefined => {
-  if (!values || values.length === 0) return undefined;
+  if (!values || values.length === 0) {
+    return undefined;
+  }
+
   return values[0];
 };

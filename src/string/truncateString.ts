@@ -16,6 +16,9 @@ export const truncateString = (
   maxContentLength: number,
   suffix = "...",
 ): string => {
-  if (sourceString.length <= maxContentLength) return sourceString;
+  if (sourceString.length <= maxContentLength) {
+    return sourceString;
+  }
+
   return sourceString.slice(0, maxContentLength) + suffix;
 };
