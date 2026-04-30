@@ -606,7 +606,7 @@ No function re-implements logic that already exists elsewhere in the codebase.
 ## Contributing
 
 ```bash
-git clone https://github.com/leonardochermaut/clean-data-utils
+git clone https://github.com/LeonardoChermaut/clean-data-utils
 cd clean-data-utils
 yarn install
 yarn build
