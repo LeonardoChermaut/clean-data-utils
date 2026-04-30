@@ -12,7 +12,7 @@
  * // Output: { name: 'John', city: 'New York' }
  * ```
  */
-const pickPropertiesFromObject = <
+export const pickPropertiesFromObject = <
   ObjectType extends Record<string, unknown>,
   KeyType extends keyof ObjectType,
 >(
@@ -29,5 +29,3 @@ const pickPropertiesFromObject = <
 
   return result;
 };
-
-export { pickPropertiesFromObject };

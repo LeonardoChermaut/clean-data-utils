@@ -11,10 +11,6 @@
  * // Output: true
  * ```
  */
-const isTruthyValue = <ValueType>(
-  value: ValueType | null | undefined | false | 0 | "",
-): value is NonNullable<ValueType> => {
-  return Boolean(value);
-};
-
-export { isTruthyValue };
+export const isTruthyValue = <T>(
+  value: T | null | undefined | false | 0 | "",
+): value is NonNullable<T> => Boolean(value);

@@ -1,5 +1,4 @@
 import { isTruthyValue } from "@/predicates";
-
 /**
  * Removes all falsy values from an array.
  * @param values - The array to filter.
@@ -7,8 +6,6 @@ import { isTruthyValue } from "@/predicates";
  * @example
  * removeFalsyValuesFromArray([0, 1, 2, false, true, null, undefined, "", "hello"]); // [1, 2, true, "hello"]
  */
-const removeFalsyValuesFromArray = <ElementType>(
-  values: ElementType[],
-): ElementType[] => values.filter(isTruthyValue);
-
-export { removeFalsyValuesFromArray };
+export const removeFalsyValuesFromArray = <TElement>(
+  values: TElement[],
+): TElement[] => values.filter(isTruthyValue);

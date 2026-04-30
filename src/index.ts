@@ -1,4 +1,4 @@
 export * from "./array";
 export * from "./object";
-export * from "./string";
 export * from "./predicates";
+export * from "./string";

@@ -1,5 +1,4 @@
 import { isNullOrUndefined } from "@/predicates";
-
 /**
  * Removes all null and undefined values from an array.
  * @param values - The array to filter.
@@ -7,9 +6,7 @@ import { isNullOrUndefined } from "@/predicates";
  * @example
  * removeNullOrUndefinedValuesFromArray([1, null, 2, undefined, 3]); // [1, 2, 3]
  */
-const removeNullOrUndefinedValuesFromArray = <ElementType>(
-  values: (ElementType | null | undefined)[],
-): ElementType[] =>
-  values.filter((value): value is ElementType => !isNullOrUndefined(value));
-
-export { removeNullOrUndefinedValuesFromArray };
+export const removeNullOrUndefinedValuesFromArray = <TElement>(
+  values: (TElement | null | undefined)[],
+): TElement[] =>
+  values.filter((value): value is TElement => !isNullOrUndefined(value));
