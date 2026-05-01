@@ -44,4 +44,22 @@ describe("groupArrayByKey", () => {
 
     expect(result[1]).toHaveLength(1);
   });
+
+  it("handles three different groups", () => {
+    const items = [{ category: "a" }, { category: "b" }, { category: "c" }];
+    const result = groupArrayByKey(items, (item) => item.category);
+
+    expect(result["a"]).toHaveLength(1);
+    expect(result["b"]).toHaveLength(1);
+    expect(result["c"]).toHaveLength(1);
+  });
+
+  it("handles duplicate keys and new groups", () => {
+    const items = [{ group: "first" }, { group: "second" }, { group: "first" }, { group: "third" }];
+    const result = groupArrayByKey(items, (item) => item.group);
+
+    expect(result["first"]).toHaveLength(2);
+    expect(result["second"]).toHaveLength(1);
+    expect(result["third"]).toHaveLength(1);
+  });
 });

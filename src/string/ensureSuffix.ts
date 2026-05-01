@@ -16,7 +16,5 @@
  * // Output: "filename.txt" (unchanged)
  * ```
  */
-export const ensureSuffix = <TSource extends string>(
-  sourceString: TSource,
-  suffix: string,
-): TSource => (sourceString.endsWith(suffix) ? sourceString : ((sourceString + suffix) as TSource));
+export const ensureSuffix = (sourceString: string, suffix: string): string =>
+  sourceString.endsWith(suffix) ? sourceString : sourceString + suffix;
