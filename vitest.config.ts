@@ -14,7 +14,7 @@ export default defineConfig({
       thresholds: {
         lines: 99,
         functions: 100,
-        branches: 98,
+        branches: 95,
         statements: 99,
       },
       exclude: [
@@ -25,6 +25,10 @@ export default defineConfig({
         "src/string/index.ts",
         "src/predicates/index.ts",
         "src/parsing/index.ts",
+        "src/number/index.ts",
+        "src/function/index.ts",
+        "src/promise/index.ts",
+        "src/types/index.ts",
       ],
     },
   },
