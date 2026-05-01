@@ -6,3 +6,6 @@ export * from "./mergeObjects";
 export * from "./hasDefinedProperty";
 export * from "./hasOwnProperty";
 export * from "./getDefinedPropertiesFromObject";
+export * from "./deepClone";
+export * from "./isObjectEmpty";
+export * from "./deepMergeObjects";

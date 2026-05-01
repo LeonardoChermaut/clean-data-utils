@@ -10,3 +10,7 @@ export * from "./chunkArray";
 export * from "./partitionArray";
 export * from "./differenceBetweenArrays";
 export * from "./sortArrayByKey";
+export * from "./shuffleArray";
+export * from "./insertElementIntoArray";
+export * from "./removeElementByIndexFromArray";
+export * from "./replaceElementInArray";
