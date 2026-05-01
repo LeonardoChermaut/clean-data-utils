@@ -16,8 +16,5 @@
  * // Output: "hello" (unchanged)
  * ```
  */
-export const removePrefix = <TSource extends string>(
-  sourceString: TSource,
-  prefix: string,
-): TSource =>
-  sourceString.startsWith(prefix) ? (sourceString.slice(prefix.length) as TSource) : sourceString;
+export const removePrefix = (sourceString: string, prefix: string): string =>
+  sourceString.startsWith(prefix) ? sourceString.slice(prefix.length) : sourceString;

@@ -33,11 +33,13 @@ import {
   getFirstElementFromArray,
   getLastElementFromArray,
   flattenArray,
+  flattenDeepArray,
   uniqueValuesFromArray,
   groupArrayByKey,
   chunkArray,
   partitionArray,
   differenceBetweenArrays,
+  sortArrayByKey,
   removeUndefinedPropertiesFromObject,
   pickPropertiesFromObject,
   omitPropertiesFromObject,
@@ -46,6 +48,7 @@ import {
   hasDefinedProperty,
   hasOwnProperty,
   getDefinedPropertiesFromObject,
+  safeJsonParse,
   splitStringAndRemoveEmptySegments,
   normalizeWhitespace,
   truncateString,
@@ -170,6 +173,29 @@ flattenArray([]);
 
 ---
 
+#### `flattenDeepArray<TElement>`
+
+```typescript
+const flattenDeepArray = <TElement>(
+  values: ReadonlyArray<TElement | ReadonlyArray<unknown>>
+): TElement[] => ...
+```
+
+Recursively flattens an array of arbitrarily nested arrays. Uses an iterative approach to avoid stack overflow on deeply nested structures.
+
+```typescript
+flattenDeepArray([1, [2, [3, [4]]]]);
+// → [1, 2, 3, 4]
+
+flattenDeepArray([["a", "b"], [["c"]], "d"]);
+// → ["a", "b", "c", "d"]
+
+flattenDeepArray([]);
+// → []
+```
+
+---
+
 #### `uniqueValuesFromArray<TElement>`
 
 ```typescript
@@ -276,6 +302,34 @@ differenceBetweenArrays([1, 2, 3, 4, 5], [2, 4]);
 
 differenceBetweenArrays([1, 2, 3], [1, 2, 3]);
 // → []
+```
+
+---
+
+#### `sortArrayByKey<TElement>`
+
+```typescript
+const sortArrayByKey = <TElement>(
+  values: TElement[],
+  getComparable: (element: TElement) => number | string | bigint,
+  direction?: "asc" | "desc"
+): TElement[] => ...
+```
+
+Sorts an array of elements by the value extracted with the given getter. Returns a new sorted array; does not mutate the original. The direction defaults to `"asc"`.
+
+```typescript
+sortArrayByKey([3, 1, 2], (x) => x);
+// → [1, 2, 3]
+
+sortArrayByKey([1, 3, 2], (x) => x, "desc");
+// → [3, 2, 1]
+
+sortArrayByKey(
+  [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }],
+  (item) => item.name
+);
+// → [{ name: "Alice" }, { name: "Bob" }, { name: "Charlie" }]
 ```
 
 ---
@@ -705,6 +759,36 @@ isNonEmptyString(""); // → false
 isNonEmptyString("hello"); // → true
 isNonEmptyString(null); // → false
 isNonEmptyString(0); // → false
+```
+
+---
+
+### Parsing
+
+---
+
+#### `safeJsonParse`
+
+```typescript
+const safeJsonParse = (
+  jsonString: string
+): unknown => ...
+```
+
+Parses a JSON string safely. Returns the parsed value on success, or `undefined` if parsing fails. Never throws exceptions.
+
+```typescript
+safeJsonParse('{"key": "value"}');
+// → { key: "value" }
+
+safeJsonParse("[1, 2, 3]");
+// → [1, 2, 3]
+
+safeJsonParse("invalid json");
+// → undefined
+
+safeJsonParse("");
+// → undefined
 ```
 
 ---

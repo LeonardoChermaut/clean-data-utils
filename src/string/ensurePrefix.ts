@@ -16,8 +16,5 @@
  * // Output: "prefix:hello" (unchanged)
  * ```
  */
-export const ensurePrefix = <TSource extends string>(
-  sourceString: TSource,
-  prefix: string,
-): TSource =>
-  sourceString.startsWith(prefix) ? sourceString : ((prefix + sourceString) as TSource);
+export const ensurePrefix = (sourceString: string, prefix: string): string =>
+  sourceString.startsWith(prefix) ? sourceString : prefix + sourceString;
