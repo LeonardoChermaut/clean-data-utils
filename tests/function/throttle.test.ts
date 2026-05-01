@@ -33,11 +33,4 @@ describe("throttle", () => {
     const throttled = throttle(fn, 50);
     expect(typeof throttled).toBe("function");
   });
-
-  it("should handle empty array", () => {
-    const result: string[] = [];
-    expect(result).toEqual([]);
-  });
-
-  it("should handle zero value", () => expect(0).toBe(0));
 });

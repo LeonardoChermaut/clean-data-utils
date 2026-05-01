@@ -32,11 +32,4 @@ describe("retry", () => {
 
     await expect(retry(operation, { maxRetries: 2, baseDelay: 10 })).rejects.toThrow("fail");
   });
-
-  it("should handle empty array", () => {
-    const result: string[] = [];
-    expect(result).toEqual([]);
-  });
-
-  it("should handle zero value", () => expect(0).toBe(0));
 });

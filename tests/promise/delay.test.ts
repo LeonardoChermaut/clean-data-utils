@@ -18,11 +18,4 @@ describe("delay", () => {
     const result = await delay(0);
     expect(result).toBeUndefined();
   });
-
-  it("should handle empty array", () => {
-    const result: string[] = [];
-    expect(result).toEqual([]);
-  });
-
-  it("should handle zero value", () => expect(0).toBe(0));
 });
