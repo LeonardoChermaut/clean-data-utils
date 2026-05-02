@@ -31,4 +31,13 @@ describe("compose", () => {
     const result = fn("a");
     expect(result).toBe("ab");
   });
+
+  it("should handle three functions", () => {
+    const fn = compose(
+      (value: number) => value + 1,
+      (value: number) => value * 2,
+      (value: number) => value - 3,
+    );
+    expect(fn(5)).toBe(9);
+  });
 });
