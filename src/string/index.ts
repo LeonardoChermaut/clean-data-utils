@@ -6,3 +6,7 @@ export * from "./ensureSuffix";
 export * from "./removePrefix";
 export * from "./capitalizeString";
 export * from "./slugifyString";
+export * from "./camelToKebabString";
+export * from "./kebabToCamelString";
+export * from "./camelToSnakeString";
+export * from "./isNumericString";
