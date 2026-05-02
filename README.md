@@ -60,6 +60,10 @@ import {
   renameKeysInObject,
   flipObject,
   filterObjectKeys,
+  deepEqual,
+  pathExists,
+  flattenObject,
+  unflattenObject,
   safeJsonParse,
   splitStringAndRemoveEmptySegments,
   normalizeWhitespace,
@@ -82,6 +86,10 @@ import {
   debounce,
   throttle,
   compose,
+  pipe,
+  memoize,
+  curry,
+  partial,
   clampNumber,
   roundNumber,
   isEvenNumber,
@@ -92,6 +100,29 @@ import {
   zipArrays,
   delay,
   retry,
+  isValidEmail,
+  isValidUrl,
+  isValidDate,
+  parseDate,
+  formatDate,
+  addDays,
+  addMonths,
+  differenceInDays,
+  joinPath,
+  parsePath,
+  resolvePath,
+  dirname,
+  basename,
+  extname,
+  getEnvVariable,
+  getEnvVariableAsNumber,
+  getEnvVariableAsBoolean,
+  requireEnvVariable,
+  timeout,
+  timeoutWithPromise,
+  parallel,
+  sequential,
+  allSettled,
 } from "clean-data-utils";
 ```
 
@@ -1292,6 +1323,402 @@ type OptionalName = Nullable<string>;
 
 ---
 
+### Validation
+
+---
+
+#### `isValidEmail`
+
+```typescript
+const isValidEmail = (sourceString: string): boolean => ...
+```
+
+Validates if a string is a valid email address (RFC 5322 compliant).
+
+```typescript
+isValidEmail("user@example.com");
+// → true
+
+isValidEmail("invalid-email");
+// → false
+```
+
+---
+
+#### `isValidUrl`
+
+```typescript
+const isValidUrl = (sourceString: string): boolean => ...
+```
+
+Validates if a string is a valid URL (RFC 3986 compliant).
+
+```typescript
+isValidUrl("https://example.com");
+// → true
+
+isValidUrl("not-a-url");
+// → false
+```
+
+---
+
+### Date
+
+---
+
+#### `isValidDate`
+
+```typescript
+const isValidDate = (value: unknown): value is Date => ...
+```
+
+Validates if a value is a valid Date object or can be parsed into one.
+
+```typescript
+isValidDate(new Date("2024-01-01"));
+// → true
+
+isValidDate("invalid-date");
+// → false
+```
+
+---
+
+#### `parseDate`
+
+```typescript
+const parseDate = (source: string | number | Date): Date | null => ...
+```
+
+Parses a string or number into a Date object.
+
+```typescript
+parseDate("2024-01-15");
+// → Date object for Jan 15, 2024
+
+parseDate("invalid");
+// → null
+```
+
+---
+
+#### `formatDate`
+
+```typescript
+const formatDate = (sourceDate: Date): string => ...
+```
+
+Formats a Date object to ISO 8601 format (YYYY-MM-DD).
+
+```typescript
+formatDate(new Date("2024-01-15T10:30:00Z"));
+// → "2024-01-15"
+```
+
+---
+
+#### `addDays`
+
+```typescript
+const addDays = (sourceDate: Date, numberOfDays: number): Date | null => ...
+```
+
+Adds a specified number of days to a date.
+
+```typescript
+addDays(new Date("2024-01-10"), 5);
+// → Date object for Jan 15, 2024
+```
+
+---
+
+#### `addMonths`
+
+```typescript
+const addMonths = (sourceDate: Date, numberOfMonths: number): Date | null => ...
+```
+
+Adds a specified number of months to a date.
+
+```typescript
+addMonths(new Date("2024-01-15"), 2);
+// → Date object for Mar 15, 2024
+```
+
+---
+
+#### `differenceInDays`
+
+```typescript
+const differenceInDays = (firstDate: Date, secondDate: Date): number | null => ...
+```
+
+Calculates the difference in days between two dates.
+
+```typescript
+differenceInDays(new Date("2024-01-15"), new Date("2024-01-10"));
+// → 5
+```
+
+---
+
+### Path
+
+---
+
+#### `joinPath`
+
+```typescript
+const joinPath = (...pathSegments: string[]): string => ...
+```
+
+Joins multiple path segments into a single normalized path.
+
+```typescript
+joinPath("/home", "user", "documents");
+// → "/home/user/documents"
+```
+
+---
+
+#### `parsePath`
+
+```typescript
+const parsePath = (sourceString: string): {
+  directory: string;
+  basename: string;
+  extension: string;
+  filename: string;
+} => ...
+```
+
+Parses a path string into its component parts.
+
+```typescript
+parsePath("/home/user/documents/file.txt");
+// → { directory: "/home/user/documents", basename: "file.txt", extension: "txt", filename: "file" }
+```
+
+---
+
+#### `resolvePath`
+
+```typescript
+const resolvePath = (basePath: string, relativePath: string): string => ...
+```
+
+Resolves a path relative to a base path.
+
+```typescript
+resolvePath("/home/user/documents", "../pictures");
+// → "/home/user/pictures"
+```
+
+---
+
+#### `dirname`
+
+```typescript
+const dirname = (sourcePath: string): string => ...
+```
+
+Returns the directory portion of a path.
+
+```typescript
+dirname("/home/user/documents/file.txt");
+// → "/home/user/documents"
+```
+
+---
+
+#### `basename`
+
+```typescript
+const basename = (sourcePath: string, fileExtension?: string): string => ...
+```
+
+Returns the filename portion of a path.
+
+```typescript
+basename("/home/user/documents/file.txt");
+// → "file.txt"
+
+basename("/home/user/documents/file.txt", ".txt");
+// → "file"
+```
+
+---
+
+#### `extname`
+
+```typescript
+const extname = (sourcePath: string): string => ...
+```
+
+Returns the file extension (including the dot) from a path.
+
+```typescript
+extname("/home/user/documents/file.txt");
+// → ".txt"
+```
+
+---
+
+### Env
+
+---
+
+#### `getEnvVariable`
+
+```typescript
+const getEnvVariable = (variableName: string): string | undefined => ...
+```
+
+Gets an environment variable value as a string.
+
+```typescript
+getEnvVariable("NODE_ENV");
+// → "development" (or whatever the value is)
+```
+
+---
+
+#### `getEnvVariableAsNumber`
+
+```typescript
+const getEnvVariableAsNumber = (variableName: string): number | undefined => ...
+```
+
+Gets an environment variable value as a number.
+
+```typescript
+getEnvVariableAsNumber("PORT");
+// → 3000 (if PORT=3000)
+```
+
+---
+
+#### `getEnvVariableAsBoolean`
+
+```typescript
+const getEnvVariableAsBoolean = (variableName: string): boolean | undefined => ...
+```
+
+Gets an environment variable value as a boolean. Truthy values: "true", "1", "yes". Falsy values: "false", "0", "no", "".
+
+```typescript
+getEnvVariableAsBoolean("DEBUG");
+// → true (if DEBUG=true)
+```
+
+---
+
+#### `requireEnvVariable`
+
+```typescript
+const requireEnvVariable = (variableName: string): string => ...
+```
+
+Gets a required environment variable, throwing an error if not set.
+
+```typescript
+const apiKey = requireEnvVariable("API_KEY");
+// Returns the API_KEY value or throws if not set
+```
+
+---
+
+### Async
+
+---
+
+#### `timeout`
+
+```typescript
+const timeout = (milliseconds: number): Promise<void> => ...
+```
+
+Creates a promise that resolves after a specified timeout.
+
+```typescript
+await timeout(1000);
+// Resolves after 1 second
+```
+
+---
+
+#### `timeoutWithPromise`
+
+```typescript
+const timeoutWithPromise = <T>(promise: Promise<T>, milliseconds: number): Promise<T> => ...
+```
+
+Adds a timeout to a promise. Rejects if the timeout is reached before the promise resolves.
+
+```typescript
+const result = await timeoutWithPromise(fetchData(), 5000);
+// Throws if fetchData takes more than 5 seconds
+```
+
+---
+
+#### `parallel`
+
+```typescript
+const parallel = async <T>(tasks: Array<() => Promise<T>>, limit: number): Promise<T[]> => ...
+```
+
+Executes promises in parallel with a concurrency limit.
+
+```typescript
+const results = await parallel([
+  () => fetch('/api/users'),
+  () => fetch('/api/posts'),
+  () => fetch('/api/comments'),
+], 2);
+// Executes at most 2 at a time
+```
+
+---
+
+#### `sequential`
+
+```typescript
+const sequential = async <T>(tasks: Array<() => Promise<T>>): Promise<T[]> => ...
+```
+
+Executes promises sequentially.
+
+```typescript
+const results = await sequential([
+  () => fetch('/api/step1'),
+  () => fetch('/api/step2'),
+  () => fetch('/api/step3'),
+]);
+// Executes one after another, in order
+```
+
+---
+
+#### `allSettled`
+
+```typescript
+const allSettled = async <T>(tasks: Array<Promise<T>>): Promise<Array<{ status: "fulfilled"; value: T } | { status: "rejected"; reason: unknown }>> => ...
+```
+
+Executes promises and returns an array of results (fulfilled or rejected).
+
+```typescript
+const results = await allSettled([
+  Promise.resolve('success'),
+  Promise.reject('error'),
+]);
+// [{ status: 'fulfilled', value: 'success' }, { status: 'rejected', reason: 'error' }]
+```
+
+---
+
 ## Composition map
 
 Functions in this library compose with each other. The dependency graph is explicit and enforced:
@@ -1325,6 +1752,17 @@ object/getNestedValue
 
 function/compose
   └─ consumed by → (none - standalone utility)
+
+date/isValidDate
+  └─ consumed by → date/parseDate
+
+path/parsePath
+  ├─ consumed by → path/dirname
+  ├─ consumed by → path/basename
+  └─ consumed by → path/extname
+
+async/timeout
+  └─ consumed by → async/timeoutWithPromise
 ```
 
 No function re-implements logic that already exists elsewhere in the codebase.
