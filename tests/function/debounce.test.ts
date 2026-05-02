@@ -33,11 +33,4 @@ describe("debounce", () => {
     const debounced = debounce(fn, 50);
     expect(typeof debounced).toBe("function");
   });
-
-  it("should handle empty array", () => {
-    const result: string[] = [];
-    expect(result).toEqual([]);
-  });
-
-  it("should handle zero value", () => expect(0).toBe(0));
 });

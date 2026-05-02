@@ -14,3 +14,6 @@ export * from "./shuffleArray";
 export * from "./insertElementIntoArray";
 export * from "./removeElementByIndexFromArray";
 export * from "./replaceElementInArray";
+export * from "./intersectionBetweenArrays";
+export * from "./findDuplicatesFromArray";
+export * from "./zipArrays";

@@ -9,3 +9,8 @@ export * from "./getDefinedPropertiesFromObject";
 export * from "./deepClone";
 export * from "./isObjectEmpty";
 export * from "./deepMergeObjects";
+export * from "./getNestedValue";
+export * from "./setNestedValue";
+export * from "./renameKeysInObject";
+export * from "./flipObject";
+export * from "./filterObjectKeys";

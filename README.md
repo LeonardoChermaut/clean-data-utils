@@ -40,6 +40,10 @@ import {
   partitionArray,
   differenceBetweenArrays,
   sortArrayByKey,
+  shuffleArray,
+  insertElementIntoArray,
+  removeElementByIndexFromArray,
+  replaceElementInArray,
   removeUndefinedPropertiesFromObject,
   pickPropertiesFromObject,
   omitPropertiesFromObject,
@@ -48,6 +52,14 @@ import {
   hasDefinedProperty,
   hasOwnProperty,
   getDefinedPropertiesFromObject,
+  deepClone,
+  isObjectEmpty,
+  deepMergeObjects,
+  getNestedValue,
+  setNestedValue,
+  renameKeysInObject,
+  flipObject,
+  filterObjectKeys,
   safeJsonParse,
   splitStringAndRemoveEmptySegments,
   normalizeWhitespace,
@@ -55,12 +67,31 @@ import {
   ensurePrefix,
   ensureSuffix,
   removePrefix,
+  capitalizeString,
+  slugifyString,
+  camelToKebabString,
+  kebabToCamelString,
+  camelToSnakeString,
+  isNumericString,
   isTruthyValue,
   isNullOrUndefined,
   isUndefined,
   isDefinedValue,
   isNonEmptyArray,
   isNonEmptyString,
+  debounce,
+  throttle,
+  compose,
+  clampNumber,
+  roundNumber,
+  isEvenNumber,
+  randomNumberBetween,
+  sumNumbersFromArray,
+  intersectionBetweenArrays,
+  findDuplicatesFromArray,
+  zipArrays,
+  delay,
+  retry,
 } from "clean-data-utils";
 ```
 
@@ -334,6 +365,59 @@ sortArrayByKey(
 
 ---
 
+#### `intersectionBetweenArrays<TElement>`
+
+```typescript
+const intersectionBetweenArrays = <TElement>(
+  first: TElement[],
+  second: TElement[]
+): TElement[] => ...
+```
+
+Returns elements that exist in both arrays.
+
+```typescript
+intersectionBetweenArrays([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]);
+// → [3, 4, 5]
+```
+
+---
+
+#### `findDuplicatesFromArray<TElement>`
+
+```typescript
+const findDuplicatesFromArray = <TElement>(
+  values: TElement[]
+): TElement[] => ...
+```
+
+Returns duplicate values from an array.
+
+```typescript
+findDuplicatesFromArray([1, 2, 2, 3, 3, 3, 4]);
+// → [2, 3]
+```
+
+---
+
+#### `zipArrays<TFirst, TSecond>`
+
+```typescript
+const zipArrays = <TFirst, TSecond>(
+  first: TFirst[],
+  second: TSecond[]
+): Array<[TFirst, TSecond]> => ...
+```
+
+Combines two arrays into an array of tuples.
+
+```typescript
+zipArrays([1, 2, 3], ["a", "b", "c"]);
+// → [[1, "a"], [2, "b"], [3, "c"]]
+```
+
+---
+
 ### Object
 
 ---
@@ -508,6 +592,96 @@ getDefinedPropertiesFromObject({ a: null, b: undefined });
 
 ---
 
+#### `getNestedValue<TObject>`
+
+```typescript
+const getNestedValue = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject,
+  path: string
+): unknown => ...
+```
+
+Gets a nested value from an object using a dot-notation path.
+
+```typescript
+getNestedValue({ user: { address: { city: "London" } } }, "user.address.city");
+// → "London"
+```
+
+---
+
+#### `setNestedValue<TObject>`
+
+```typescript
+const setNestedValue = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject,
+  path: string,
+  value: unknown
+): TObject => ...
+```
+
+Sets a nested value in an object using a dot-notation path, returning a new object.
+
+```typescript
+setNestedValue({ user: { name: "Alice" } }, "user.address.city", "London");
+// → { user: { name: "Alice", address: { city: "London" } } }
+```
+
+---
+
+#### `renameKeysInObject<TObject>`
+
+```typescript
+const renameKeysInObject = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject,
+  keyMap: Record<string, string>
+): Record<string, unknown> => ...
+```
+
+Renames keys in an object according to a mapping.
+
+```typescript
+renameKeysInObject({ name: "Alice", age: 30 }, { name: "fullName", age: "userAge" });
+// → { fullName: "Alice", userAge: 30 }
+```
+
+---
+
+#### `flipObject<TObject>`
+
+```typescript
+const flipObject = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject
+): Record<string, string> => ...
+```
+
+Flips an object, swapping keys and values.
+
+```typescript
+flipObject({ a: 1, b: 2, c: 3 });
+// → { 1: "a", 2: "b", 3: "c" }
+```
+
+---
+
+#### `filterObjectKeys<TObject>`
+
+```typescript
+const filterObjectKeys = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject,
+  predicate: (key: string) => boolean
+): Partial<TObject> => ...
+```
+
+Filters object keys using a predicate function.
+
+```typescript
+filterObjectKeys({ a: 1, b: 2, c: 3, ab: 4 }, (key) => key.length === 1);
+// → { a: 1, b: 2, c: 3 }
+```
+
+---
+
 ### String
 
 ---
@@ -638,6 +812,69 @@ removePrefix("prefix:hello", "prefix:");
 
 removePrefix("hello", "prefix:");
 // → "hello" (unchanged)
+```
+
+---
+
+#### `camelToKebabString`
+
+```typescript
+const camelToKebabString = (sourceString: string): string => ...
+```
+
+Converts a camelCase string to kebab-case.
+
+```typescript
+camelToKebabString("helloWorld");
+// → "hello-world"
+```
+
+---
+
+#### `kebabToCamelString`
+
+```typescript
+const kebabToCamelString = (sourceString: string): string => ...
+```
+
+Converts a kebab-case string to camelCase.
+
+```typescript
+kebabToCamelString("hello-world");
+// → "helloWorld"
+```
+
+---
+
+#### `camelToSnakeString`
+
+```typescript
+const camelToSnakeString = (sourceString: string): string => ...
+```
+
+Converts a camelCase string to snake_case.
+
+```typescript
+camelToSnakeString("helloWorld");
+// → "hello_world"
+```
+
+---
+
+#### `isNumericString`
+
+```typescript
+const isNumericString = (sourceString: string): boolean => ...
+```
+
+Checks if a string contains only numeric characters.
+
+```typescript
+isNumericString("12345");
+// → true
+
+isNumericString("123abc");
+// → false
 ```
 
 ---
@@ -793,6 +1030,268 @@ safeJsonParse("");
 
 ---
 
+### Function
+
+---
+
+#### `debounce<TFunc>`
+
+```typescript
+const debounce = <TFunc extends (...args: any[]) => void>(
+  callback: TFunc,
+  delay: number,
+): (...args: Parameters<TFunc>) => void => ...
+```
+
+Creates a debounced version of a function. The returned function delays execution until `delay` milliseconds have passed without being called again.
+
+```typescript
+const debouncedSearch = debounce((query: string) => {
+  console.log("Searching:", query);
+}, 300);
+
+debouncedSearch("a");
+debouncedSearch("ab");
+debouncedSearch("abc");
+// Only "Searching: abc" executes after 300ms
+```
+
+---
+
+#### `throttle<TFunc>`
+
+```typescript
+const throttle = <TFunc extends (...args: any[]) => void>(
+  callback: TFunc,
+  limit: number,
+): (...args: Parameters<TFunc>) => void => ...
+```
+
+Creates a throttled version of a function. The returned function executes at most once per `limit` milliseconds.
+
+```typescript
+const throttledScroll = throttle(() => {
+  console.log("Scroll event");
+}, 100);
+
+window.addEventListener("scroll", throttledScroll);
+```
+
+---
+
+#### `compose<TArgs, TResult>`
+
+```typescript
+const compose = <TArgs extends unknown[], TResult>(
+  ...fns: Array<(arg: any) => any>
+): (...args: TArgs) => TResult => ...
+```
+
+Composes functions from right to left. The output of each function becomes the input of the next.
+
+```typescript
+const addOne = (x: number) => x + 1;
+const double = (x: number) => x * 2;
+const square = (x: number) => x * x;
+
+const pipeline = compose(square, double, addOne);
+pipeline(2);
+// → ((2 + 1) * 2)² = 36
+```
+
+---
+
+### Number
+
+---
+
+#### `clampNumber`
+
+```typescript
+const clampNumber = (
+  value: number,
+  minimum: number,
+  maximum: number,
+): number => ...
+```
+
+Restricts a number to be within the range [minimum, maximum]. Returns the clamped value.
+
+```typescript
+clampNumber(5, 0, 10);
+// → 5
+
+clampNumber(-5, 0, 10);
+// → 0
+
+clampNumber(15, 0, 10);
+// → 10
+```
+
+---
+
+#### `roundNumber`
+
+```typescript
+const roundNumber = (
+  value: number,
+  decimalPlaces: number,
+): number => ...
+```
+
+Rounds a number to a specified number of decimal places. Avoids floating-point precision issues.
+
+```typescript
+roundNumber(1.005, 2);
+// → 1.01
+
+roundNumber(2.1749, 2);
+// → 2.17
+
+roundNumber(0.1 + 0.2, 1);
+// → 0.3
+```
+
+---
+
+#### `isEvenNumber`
+
+```typescript
+const isEvenNumber = (value: number): boolean => ...
+```
+
+Checks if a number is even.
+
+```typescript
+isEvenNumber(4);
+// → true
+
+isEvenNumber(5);
+// → false
+```
+
+---
+
+#### `randomNumberBetween`
+
+```typescript
+const randomNumberBetween = (
+  minimum: number,
+  maximum: number
+): number => ...
+```
+
+Generates a random number between a minimum and maximum value (inclusive).
+
+```typescript
+randomNumberBetween(1, 10);
+// → random number between 1 and 10
+```
+
+---
+
+#### `sumNumbersFromArray`
+
+```typescript
+const sumNumbersFromArray = (values: number[]): number => ...
+```
+
+Sums all numbers in an array.
+
+```typescript
+sumNumbersFromArray([1, 2, 3, 4, 5]);
+// → 15
+```
+
+---
+
+### Promise
+
+---
+
+#### `delay`
+
+```typescript
+const delay = (milliseconds: number): Promise<void> => ...
+```
+
+Returns a promise that resolves after the specified milliseconds. Useful for simulations, visual delays, and testing.
+
+```typescript
+await delay(500);
+console.log("500ms later");
+
+delay(1000).then(() => console.log("Done"));
+```
+
+---
+
+#### `retry<T>`
+
+```typescript
+const retry = async <T>(
+  operation: () => Promise<T>,
+  options?: { maxRetries?: number; baseDelay?: number },
+): Promise<T> => ...
+```
+
+Executes an async operation with exponential backoff retry. Retries up to `maxRetries` (default 3) times with increasing delays.
+
+```typescript
+const fetchWithRetry = retry(() => fetch("/api/data"), {
+  maxRetries: 3,
+  baseDelay: 1000,
+});
+
+const data = await fetchWithRetry;
+```
+
+---
+
+### Types
+
+---
+
+#### `DeepReadonly<T>`
+
+```typescript
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: DeepReadonly<T[P]>;
+};
+```
+
+Recursive readonly type. Makes all properties and nested properties immutable.
+
+```typescript
+type User = DeepReadonly<{
+  name: string;
+  address: {
+    city: string;
+    zip: number;
+  };
+}>;
+// User.name is readonly
+// User.address is readonly
+// User.address.city is readonly
+```
+
+---
+
+#### `Nullable<T>`
+
+```typescript
+type Nullable<T> = T | null | undefined;
+```
+
+Type alias for nullable values. Shorthand for `T | null | undefined`.
+
+```typescript
+type OptionalName = Nullable<string>;
+// → string | null | undefined
+```
+
+---
+
 ## Composition map
 
 Functions in this library compose with each other. The dependency graph is explicit and enforced:
@@ -818,7 +1317,14 @@ array/removeFalsyValuesFromArray
   └─ consumed by → string/splitStringAndRemoveEmptySegments
 
 array/uniqueValuesFromArray
-  └─ consumed by → array/differenceBetweenArrays
+  ├─ consumed by → array/differenceBetweenArrays
+  └─ consumed by → array/intersectionBetweenArrays
+
+object/getNestedValue
+  └─ consumed by → object/setNestedValue
+
+function/compose
+  └─ consumed by → (none - standalone utility)
 ```
 
 No function re-implements logic that already exists elsewhere in the codebase.
