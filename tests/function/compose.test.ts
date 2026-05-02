@@ -31,9 +31,4 @@ describe("compose", () => {
     const result = fn("a");
     expect(result).toBe("ab");
   });
-
-  it("should handle empty array", () => {
-    const result: string[] = [];
-    expect(result).toEqual([]);
-  });
 });
