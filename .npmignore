@@ -5,6 +5,7 @@ tests/
 .eslintrc.js
 jest.config.ts
 vite.config.ts
+vitest.config.ts
 tailwind.config.ts
 postcss.config.js
 .eslintignore
@@ -14,12 +15,15 @@ postcss.config.js
 .package-lock.json
 .yarn-lock.json
 package-lock.json
-yarn-lock.json
+yarn.lock
 CHANGELOG.md
 docs/
 .coverage
 .nyc_output
 node_modules
-dist
 dist-ssr
 coverage
+.eslint.config.mjs
+tsconfig.test.json
+.gitignore
+.vscode/

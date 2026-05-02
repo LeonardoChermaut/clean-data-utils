@@ -14,3 +14,7 @@ export * from "./setNestedValue";
 export * from "./renameKeysInObject";
 export * from "./flipObject";
 export * from "./filterObjectKeys";
+export * from "./deepEqual";
+export * from "./pathExists";
+export * from "./flattenObject";
+export * from "./unflattenObject";
