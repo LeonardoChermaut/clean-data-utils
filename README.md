@@ -102,6 +102,9 @@ import {
   retry,
   isValidEmail,
   isValidUrl,
+  isValidName,
+  isValidPassword,
+  isValidDateString,
   isValidDate,
   parseDate,
   formatDate,
@@ -1363,6 +1366,95 @@ isValidUrl("not-a-url");
 
 ---
 
+#### `isValidName`
+
+```typescript
+const isValidName = (sourceString: string): boolean => ...
+```
+
+Validates if a string is a valid personal name. Supports international names across different cultures and writing systems. Allows letters (including accented), spaces, hyphens, apostrophes, and dots.
+
+```typescript
+isValidName("John Doe");
+// → true
+
+isValidName("Maria José");
+// → true
+
+isValidName("Dim Jom");
+// → true
+
+isValidName("");
+// → false
+```
+
+---
+
+#### `isValidPassword`
+
+```typescript
+const isValidPassword = (
+  sourceString: string,
+  options?: {
+    minLength?: number;
+    requireUppercase?: boolean;
+    requireLowercase?: boolean;
+    requireNumber?: boolean;
+    requireSpecialChar?: boolean;
+  }
+): boolean => ...
+```
+
+Validates if a string is a valid password based on security requirements.
+
+```typescript
+isValidPassword("SecureP@ss1");
+// → true
+
+isValidPassword("weak");
+// → false
+
+isValidPassword("password123", { minLength: 10 });
+// → false
+```
+
+---
+
+#### `isValidDateString`
+
+```typescript
+const isValidDateString = (
+  sourceString: string,
+  options?: {
+    mode?: "date" | "date-time";
+    separator?: string;
+    dayFirst?: boolean;
+    monthFirst?: boolean;
+  }
+): boolean => ...
+```
+
+Validates if a string is a valid date. Supports multiple separators and date order formats for global use.
+
+```typescript
+isValidDateString("2024-01-15");
+// → true
+
+isValidDateString("2024-01-15T10:30:00Z", { mode: "date-time" });
+// → true
+
+isValidDateString("15/01/2024", { separator: "/", dayFirst: true });
+// → true
+
+isValidDateString("01/15/2024", { separator: "/", monthFirst: true });
+// → true
+
+isValidDateString("invalid-date");
+// → false
+```
+
+---
+
 ### Date
 
 ---
@@ -1755,6 +1847,15 @@ function/compose
 
 date/isValidDate
   └─ consumed by → date/parseDate
+
+validation/isValidName
+  └─ consumed by → (none - standalone utility)
+
+validation/isValidPassword
+  └─ consumed by → (none - standalone utility)
+
+validation/isValidDateString
+  └─ consumed by → (none - standalone utility)
 
 path/parsePath
   ├─ consumed by → path/dirname
