@@ -13,5 +13,5 @@ import { isNullOrUndefined } from "./isNullOrUndefined";
  * ```
  */
 
-export const isDefinedValue = <T>(value: T | null | undefined): value is T =>
+export const isDefinedValue = <TValue>(value: TValue | null | undefined): value is TValue =>
   !isNullOrUndefined(value);

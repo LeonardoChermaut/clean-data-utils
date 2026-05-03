@@ -22,6 +22,6 @@
  * ```
  */
 export const compose =
-  <T>(...fns: Array<(arg: T) => T>) =>
-  (value: T): T =>
+  <TData>(...fns: Array<(arg: TData) => TData>) =>
+  (value: TData): TData =>
     fns.reduce((acc, fn) => fn(acc), value);

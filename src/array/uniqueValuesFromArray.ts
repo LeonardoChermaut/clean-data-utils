@@ -11,11 +11,10 @@
  * // Output: [1, 2, 3, 4]
  * ```
  */
-export const uniqueValuesFromArray = <TElement>(
-  values: TElement[],
-  comparator: (elementOne: TElement, elementTwo: TElement) => boolean = (elementOne, elementTwo) =>
-    elementOne === elementTwo,
-): TElement[] =>
+export const uniqueValuesFromArray = <TData>(
+  values: TData[],
+  comparator: (first: TData, second: TData) => boolean = (first, second) => first === second,
+): TData[] =>
   values.filter(
     (value, index, array) => array.findIndex((other) => comparator(value, other)) === index,
   );

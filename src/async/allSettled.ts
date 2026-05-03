@@ -11,9 +11,11 @@
  * // [{ status: 'fulfilled', value: 'success' }, { status: 'rejected', reason: 'error' }]
  * ```
  */
-export const allSettled = async <T>(
-  tasks: Array<Promise<T>>,
-): Promise<Array<{ status: "fulfilled"; value: T } | { status: "rejected"; reason: unknown }>> => {
+export const allSettled = async <TResult>(
+  tasks: Array<Promise<TResult>>,
+): Promise<
+  Array<{ status: "fulfilled"; value: TResult } | { status: "rejected"; reason: unknown }>
+> => {
   if (!Array.isArray(tasks) || tasks.length === 0) {
     return [];
   }

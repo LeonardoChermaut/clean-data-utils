@@ -16,7 +16,7 @@
  * // Output: ["c", "a", "b"] (random order)
  * ```
  */
-export const shuffleArray = <TElement>(values: TElement[]): TElement[] => {
+export const shuffleArray = <TData>(values: TData[]): TData[] => {
   const result = [...values];
   let currentIndex = result.length;
   let randomIndex = 0;
@@ -24,8 +24,8 @@ export const shuffleArray = <TElement>(values: TElement[]): TElement[] => {
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-    const currentElement = result[currentIndex] as TElement;
-    const randomElement = result[randomIndex] as TElement;
+    const currentElement = result[currentIndex] as TData;
+    const randomElement = result[randomIndex] as TData;
     result[currentIndex] = randomElement;
     result[randomIndex] = currentElement;
   }

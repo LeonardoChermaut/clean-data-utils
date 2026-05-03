@@ -14,8 +14,5 @@ import { uniqueValuesFromArray } from "@/array";
  * // Output: [1, 3, 5]
  * ```
  */
-export const differenceBetweenArrays = <TElement>(
-  base: TElement[],
-  compare: TElement[],
-): TElement[] =>
+export const differenceBetweenArrays = <TData>(base: TData[], compare: TData[]): TData[] =>
   uniqueValuesFromArray(base.filter((element) => !compare.some((other) => other === element)));

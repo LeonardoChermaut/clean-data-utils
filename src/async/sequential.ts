@@ -12,12 +12,14 @@
  * // Executes one after another, in order
  * ```
  */
-export const sequential = async <T>(tasks: Array<() => Promise<T>>): Promise<T[]> => {
+export const sequential = async <TResult>(
+  tasks: Array<() => Promise<TResult>>,
+): Promise<TResult[]> => {
   if (!Array.isArray(tasks) || tasks.length === 0) {
     return [];
   }
 
-  const results: T[] = [];
+  const results: TResult[] = [];
 
   for (const task of tasks) {
     const result = await task();

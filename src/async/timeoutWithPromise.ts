@@ -11,7 +11,10 @@ import { timeout } from "./timeout";
  * // Throws if fetchData takes more than 5 seconds
  * ```
  */
-export const timeoutWithPromise = <T>(promise: Promise<T>, milliseconds: number): Promise<T> => {
+export const timeoutWithPromise = <TResult>(
+  promise: Promise<TResult>,
+  milliseconds: number,
+): Promise<TResult> => {
   if (milliseconds <= 0) {
     return promise;
   }

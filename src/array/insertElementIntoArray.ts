@@ -18,11 +18,11 @@
  * // Output: ["z", "a", "b"]
  * ```
  */
-export const insertElementIntoArray = <TElement>(
-  values: TElement[],
+export const insertElementIntoArray = <TData>(
+  values: TData[],
   index: number,
-  element: TElement,
-): TElement[] => {
+  element: TData,
+): TData[] => {
   const safeIndex = Math.max(0, Math.min(index, values.length));
   const result = [...values];
 

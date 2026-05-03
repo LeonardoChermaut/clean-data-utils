@@ -14,8 +14,5 @@ import { uniqueValuesFromArray } from "@/array";
  * // Output: [3, 4, 5]
  * ```
  */
-export const intersectionBetweenArrays = <TElement>(
-  first: TElement[],
-  second: TElement[],
-): TElement[] =>
+export const intersectionBetweenArrays = <TData>(first: TData[], second: TData[]): TData[] =>
   uniqueValuesFromArray(first.filter((element) => second.some((other) => other === element)));

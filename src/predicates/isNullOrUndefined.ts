@@ -11,6 +11,6 @@
  * // Output: true
  * ```
  */
-export const isNullOrUndefined = <ValueType>(
-  value: ValueType | null | undefined,
+export const isNullOrUndefined = <TValue>(
+  value: TValue | null | undefined,
 ): value is null | undefined => value === null || value === undefined;
