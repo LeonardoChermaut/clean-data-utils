@@ -1,6 +1,6 @@
 {
   "name": "clean-data-utils",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Utility functions for predictable data normalization and transformation",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -8,9 +8,9 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
