@@ -17,3 +17,8 @@ export * from "./replaceElementInArray";
 export * from "./intersectionBetweenArrays";
 export * from "./findDuplicatesFromArray";
 export * from "./zipArrays";
+export * from "./moveElementInArray";
+export * from "./toggleElementInArray";
+export * from "./rotateArray";
+export * from "./countElementsByPredicate";
+export * from "./sortArrayByMultipleKeys";

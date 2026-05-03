@@ -3,3 +3,7 @@ export * from "./roundNumber";
 export * from "./isEvenNumber";
 export * from "./randomNumberBetween";
 export * from "./sumNumbersFromArray";
+export * from "./isOddNumber";
+export * from "./isNumberInRange";
+export * from "./calculatePercentage";
+export * from "./sumNumbersFromArrayByKey";

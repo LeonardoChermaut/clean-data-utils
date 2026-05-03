@@ -3,3 +3,7 @@ export * from "./isValidUrl";
 export * from "./isValidName";
 export * from "./isValidPassword";
 export * from "./isValidDateString";
+export * from "./isValidCreditCard";
+export * from "./isValidHexColor";
+export * from "./isValidIpAddress";
+export * from "./isValidUuid";
