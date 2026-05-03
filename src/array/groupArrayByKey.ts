@@ -11,11 +11,11 @@
  * // Output: { a: [{ category: 'a', value: 1 }, { category: 'a', value: 2 }], b: [{ category: 'b', value: 3 }] }
  * ```
  */
-export const groupArrayByKey = <TElement, TKey extends string | number | symbol>(
-  values: TElement[],
-  keyExtractor: (element: TElement) => TKey,
-): Record<TKey, TElement[]> => {
-  const result = {} as Record<TKey, TElement[]>;
+export const groupArrayByKey = <TData, TKey extends string | number | symbol>(
+  values: TData[],
+  keyExtractor: (element: TData) => TKey,
+): Record<TKey, TData[]> => {
+  const result = {} as Record<TKey, TData[]>;
 
   for (const element of values) {
     const key = keyExtractor(element);

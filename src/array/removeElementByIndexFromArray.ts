@@ -17,10 +17,10 @@
  * // Output: [2, 4]
  * ```
  */
-export const removeElementByIndexFromArray = <TElement>(
-  values: TElement[],
+export const removeElementByIndexFromArray = <TData>(
+  values: TData[],
   index: number | number[],
-): TElement[] => {
+): TData[] => {
   const indices = Array.isArray(index) ? index : [index];
   const sortedIndices = [...indices].sort((leftIndex, rightIndex) => rightIndex - leftIndex);
   const result = [...values];

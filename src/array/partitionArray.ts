@@ -10,12 +10,12 @@
  * // Output: [[3, 4, 5], [1, 2]]
  * ```
  */
-export const partitionArray = <TElement>(
-  values: TElement[],
-  predicate: (value: TElement) => boolean,
-): [TElement[], TElement[]] => {
-  const matching: TElement[] = [];
-  const nonMatching: TElement[] = [];
+export const partitionArray = <TData>(
+  values: TData[],
+  predicate: (value: TData) => boolean,
+): [TData[], TData[]] => {
+  const matching: TData[] = [];
+  const nonMatching: TData[] = [];
 
   for (const value of values) {
     if (predicate(value)) {

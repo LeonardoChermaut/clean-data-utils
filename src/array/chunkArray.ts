@@ -11,12 +11,12 @@
  * // Output: [[1, 2, 3], [4, 5, 6], [7]]
  * ```
  */
-export const chunkArray = <TElement>(values: TElement[], chunkSize: number): TElement[][] => {
+export const chunkArray = <TData>(values: TData[], chunkSize: number): TData[][] => {
   if (chunkSize <= 0) {
     return [];
   }
 
-  const result: TElement[][] = [];
+  const result: TData[][] = [];
   for (let index = 0; index < values.length; index += chunkSize) {
     result.push(values.slice(index, index + chunkSize));
   }

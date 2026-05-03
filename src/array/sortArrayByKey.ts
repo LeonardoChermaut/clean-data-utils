@@ -25,11 +25,11 @@
  * // Output: [3, 2, 1]
  * ```
  */
-export const sortArrayByKey = <TElement>(
-  values: TElement[],
-  getComparable: (element: TElement) => number | string | bigint,
+export const sortArrayByKey = <TData>(
+  values: TData[],
+  getComparable: (element: TData) => number | string | bigint,
   direction: "asc" | "desc" = "asc",
-): TElement[] => {
+): TData[] => {
   const sorted = [...values].sort((leftElement, rightElement) => {
     const leftValue = getComparable(leftElement);
     const rightValue = getComparable(rightElement);

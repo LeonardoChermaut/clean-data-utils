@@ -18,11 +18,11 @@
  * // Output: ["z", "b", "c"]
  * ```
  */
-export const replaceElementInArray = <TElement>(
-  values: TElement[],
+export const replaceElementInArray = <TData>(
+  values: TData[],
   index: number,
-  newElement: TElement,
-): TElement[] => {
+  newElement: TData,
+): TData[] => {
   if (index < 0 || index >= values.length) {
     return [...values];
   }

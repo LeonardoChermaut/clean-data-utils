@@ -10,4 +10,4 @@
  * // Output: [1, 2, 3, 4, 5]
  * ```
  */
-export const flattenArray = <TElement>(values: TElement[][]): TElement[] => values.flat();
+export const flattenArray = <TData>(values: TData[][]): TData[] => values.flat();

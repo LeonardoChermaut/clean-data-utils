@@ -12,10 +12,10 @@
  * const result = await retry(() => fetch("/api"), { maxRetries: 3, baseDelay: 100 });
  * ```
  */
-export const retry = async <T>(
-  operation: () => Promise<T>,
+export const retry = async <TResult>(
+  operation: () => Promise<TResult>,
   options?: { maxRetries?: number; baseDelay?: number },
-): Promise<T> => {
+): Promise<TResult> => {
   const maxRetries = options?.maxRetries ?? 3;
   const baseDelay = options?.baseDelay ?? 100;
 

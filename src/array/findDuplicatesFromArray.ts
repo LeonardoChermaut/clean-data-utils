@@ -10,9 +10,9 @@
  * // Output: [2, 3]
  * ```
  */
-export const findDuplicatesFromArray = <TElement>(values: TElement[]): TElement[] => {
-  const seen: TElement[] = [];
-  const duplicates: TElement[] = [];
+export const findDuplicatesFromArray = <TData>(values: TData[]): TData[] => {
+  const seen: TData[] = [];
+  const duplicates: TData[] = [];
 
   for (const value of values) {
     if (seen.some((item) => item === value) && !duplicates.some((item) => item === value)) {

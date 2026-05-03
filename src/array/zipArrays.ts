@@ -10,12 +10,12 @@
  * // Output: [[1, "a"], [2, "b"], [3, "c"]]
  * ```
  */
-export const zipArrays = <TFirst, TSecond>(
-  first: TFirst[],
-  second: TSecond[],
-): Array<[TFirst, TSecond]> => {
+export const zipArrays = <TDataFirst, TDataSecond>(
+  first: TDataFirst[],
+  second: TDataSecond[],
+): Array<[TDataFirst, TDataSecond]> => {
   const length = Math.min(first.length, second.length);
-  const result: Array<[TFirst, TSecond]> = [];
+  const result: Array<[TDataFirst, TDataSecond]> = [];
 
   for (let index = 0; index < length; index += 1) {
     const firstElement = first[index];

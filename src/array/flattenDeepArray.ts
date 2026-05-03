@@ -15,10 +15,10 @@
  * // Output: ["a", "b", "c"]
  * ```
  */
-export const flattenDeepArray = <TElement>(
-  values: ReadonlyArray<TElement | ReadonlyArray<unknown>>,
-): TElement[] => {
-  const result: TElement[] = [];
+export const flattenDeepArray = <TData>(
+  values: ReadonlyArray<TData | ReadonlyArray<unknown>>,
+): TData[] => {
+  const result: TData[] = [];
   const stack: unknown[] = [...values];
 
   while (stack.length) {
@@ -27,7 +27,7 @@ export const flattenDeepArray = <TElement>(
     if (Array.isArray(item)) {
       stack.push(...(item as unknown[]));
     } else {
-      result.push(item as TElement);
+      result.push(item as TData);
     }
   }
 

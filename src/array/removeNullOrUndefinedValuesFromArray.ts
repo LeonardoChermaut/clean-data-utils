@@ -6,6 +6,6 @@ import { isNullOrUndefined } from "@/predicates";
  * @example
  * removeNullOrUndefinedValuesFromArray([1, null, 2, undefined, 3]); // [1, 2, 3]
  */
-export const removeNullOrUndefinedValuesFromArray = <TElement>(
-  values: (TElement | null | undefined)[],
-): TElement[] => values.filter((value): value is TElement => !isNullOrUndefined(value));
+export const removeNullOrUndefinedValuesFromArray = <TData>(
+  values: (TData | null | undefined)[],
+): TData[] => values.filter((value): value is TData => !isNullOrUndefined(value));
