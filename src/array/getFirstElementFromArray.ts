@@ -11,9 +11,9 @@
  * // Output: 1
  * ```
  */
-export const getFirstElementFromArray = <TElement>(
-  values: TElement[] | null | undefined,
-): TElement | undefined => {
+export const getFirstElementFromArray = <TData>(
+  values: TData[] | null | undefined,
+): TData | undefined => {
   if (!values || values.length === 0) {
     return undefined;
   }
