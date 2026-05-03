@@ -110,7 +110,14 @@ import {
   formatDate,
   addDays,
   addMonths,
+  addWeeks,
   differenceInDays,
+  isSameDay,
+  isDateBefore,
+  isDateAfter,
+  isWeekend,
+  startOfDay,
+  endOfDay,
   joinPath,
   parsePath,
   resolvePath,
@@ -126,6 +133,32 @@ import {
   parallel,
   sequential,
   allSettled,
+  moveElementInArray,
+  toggleElementInArray,
+  rotateArray,
+  countElementsByPredicate,
+  sortArrayByMultipleKeys,
+  compactObject,
+  countObjectKeys,
+  padString,
+  reverseString,
+  maskString,
+  removeAccentsFromString,
+  countOccurrencesInString,
+  snakeToCamelString,
+  kebabToSnakeString,
+  isOddNumber,
+  isNumberInRange,
+  calculatePercentage,
+  sumNumbersFromArrayByKey,
+  isValidCreditCard,
+  isValidHexColor,
+  isValidIpAddress,
+  isValidUuid,
+  sumHoursFromArray,
+  formatHourString,
+  convertHoursToMinutes,
+  convertMinutesToHours,
 } from "clean-data-utils";
 ```
 
@@ -278,6 +311,52 @@ uniqueValuesFromArray([1, 2, 2, 3, 1]);
 
 uniqueValuesFromArray([{ id: 1 }, { id: 2 }, { id: 1 }], (a, b) => a.id === b.id);
 // → [{ id: 1 }, { id: 2 }]
+```
+
+---
+
+#### `shuffleArray<TElement>`
+
+```typescript
+const shuffleArray = <TElement>(values: TElement[]): TElement[] => ...
+```
+
+Shuffles an array randomly using Fisher-Yates algorithm. Returns a new array; does not mutate the original.
+
+```typescript
+shuffleArray([1, 2, 3, 4, 5]);
+// → [3, 1, 5, 2, 4] (random order)
+```
+
+---
+
+#### `sortArrayByMultipleKeys<TElement>`
+
+```typescript
+const sortArrayByMultipleKeys = <TElement>(
+  values: TElement[],
+  criteria: Array<{
+    key: (element: TElement) => number | string;
+    direction?: "asc" | "desc";
+  }>
+): TElement[] => ...
+```
+
+Sorts an array by multiple keys with direction per key. Useful for compound sorting in tables.
+
+```typescript
+sortArrayByMultipleKeys(
+  [
+    { name: "bob", age: 30 },
+    { name: "alice", age: 25 },
+    { name: "bob", age: 25 },
+  ],
+  [
+    { key: (u) => u.name, direction: "asc" },
+    { key: (u) => u.age, direction: "desc" },
+  ]
+);
+// → [{ name: "alice", age: 25 }, { name: "bob", age: 30 }, { name: "bob", age: 25 }]
 ```
 
 ---
@@ -448,6 +527,86 @@ Combines two arrays into an array of tuples.
 ```typescript
 zipArrays([1, 2, 3], ["a", "b", "c"]);
 // → [[1, "a"], [2, "b"], [3, "c"]]
+```
+
+---
+
+#### `moveElementInArray<TElement>`
+
+```typescript
+const moveElementInArray = <TElement>(
+  values: TElement[],
+  fromIndex: number,
+  toIndex: number
+): TElement[] => ...
+```
+
+Moves an element from one index to another without mutating. Use case: drag-and-drop, list reordering.
+
+```typescript
+moveElementInArray([1, 2, 3, 4], 0, 2);
+// → [2, 3, 1, 4]
+```
+
+---
+
+#### `toggleElementInArray<TElement>`
+
+```typescript
+const toggleElementInArray = <TElement>(
+  values: TElement[],
+  element: TElement,
+  comparator?: (a: TElement, b: TElement) => boolean
+): TElement[] => ...
+```
+
+Removes element if it exists, adds if it doesn't. Use case: filter selection, tags, checkboxes.
+
+```typescript
+toggleElementInArray([1, 2, 3], 2);
+// → [1, 3]
+
+toggleElementInArray([1, 3], 2);
+// → [1, 3, 2]
+```
+
+---
+
+#### `rotateArray<TElement>`
+
+```typescript
+const rotateArray = <TElement>(
+  values: TElement[],
+  steps: number
+): TElement[] => ...
+```
+
+Rotates array by n positions. Positive steps → right, negative → left. Use case: carousels, round-robin.
+
+```typescript
+rotateArray([1, 2, 3, 4, 5], 2);
+// → [4, 5, 1, 2, 3]
+
+rotateArray([1, 2, 3, 4, 5], -1);
+// → [2, 3, 4, 5, 1]
+```
+
+---
+
+#### `countElementsByPredicate<TElement>`
+
+```typescript
+const countElementsByPredicate = <TElement>(
+  values: TElement[],
+  predicate: (element: TElement) => boolean
+): number => ...
+```
+
+Counts elements that satisfy a predicate.
+
+```typescript
+countElementsByPredicate([1, 2, 3, 4, 5], (n) => n > 3);
+// → 2
 ```
 
 ---
@@ -716,6 +875,38 @@ filterObjectKeys({ a: 1, b: 2, c: 3, ab: 4 }, (key) => key.length === 1);
 
 ---
 
+#### `compactObject`
+
+```typescript
+const compactObject = <TObject extends Record<string, unknown>>(
+  sourceObject: TObject
+): Record<string, unknown> => ...
+```
+
+Recursively removes null and undefined values from nested objects.
+
+```typescript
+compactObject({ a: 1, b: null, c: { d: undefined, e: 2 } });
+// → { a: 1, c: { e: 2 } }
+```
+
+---
+
+#### `countObjectKeys`
+
+```typescript
+const countObjectKeys = (sourceObject: object): number => ...
+```
+
+Counts the number of own properties on an object.
+
+```typescript
+countObjectKeys({ a: 1, b: 2, c: 3 });
+// → 3
+```
+
+---
+
 ### String
 
 ---
@@ -909,6 +1100,128 @@ isNumericString("12345");
 
 isNumericString("123abc");
 // → false
+```
+
+---
+
+#### `padString`
+
+```typescript
+const padString = (
+  sourceString: string,
+  targetLength: number,
+  padCharacter?: string
+): string => ...
+```
+
+Pads a string to a specified length with a character (default: space).
+
+```typescript
+padString("hello", 10);
+// → "hello     "
+
+padString("42", 5, "0");
+// → "00042"
+```
+
+---
+
+#### `reverseString`
+
+```typescript
+const reverseString = (sourceString: string): string => ...
+```
+
+Reverses a string with unicode support.
+
+```typescript
+reverseString("hello");
+// → "olleh"
+```
+
+---
+
+#### `maskString`
+
+```typescript
+const maskString = (
+  sourceString: string,
+  visibleChars: number,
+  maskCharacter?: string
+): string => ...
+```
+
+Masks a string by hiding characters while keeping visible ones at start/end.
+
+```typescript
+maskString("1234567890123", 4);
+// → "1234********53"
+
+maskString("user@example.com", 2);
+// → "us**@example.com"
+```
+
+---
+
+#### `removeAccentsFromString`
+
+```typescript
+const removeAccentsFromString = (sourceString: string): string => ...
+```
+
+Removes accents and diacritics, normalizing to ASCII.
+
+```typescript
+removeAccentsFromString("Héllo Wörld");
+// → "Hello World"
+```
+
+---
+
+#### `countOccurrencesInString`
+
+```typescript
+const countOccurrencesInString = (
+  sourceString: string,
+  searchValue: string
+): number => ...
+```
+
+Counts occurrences of a substring in a string.
+
+```typescript
+countOccurrencesInString("hello hell", "ll");
+// → 2
+```
+
+---
+
+#### `snakeToCamelString`
+
+```typescript
+const snakeToCamelString = (sourceString: string): string => ...
+```
+
+Converts a snake_case string to camelCase.
+
+```typescript
+snakeToCamelString("hello_world");
+// → "helloWorld"
+```
+
+---
+
+#### `kebabToSnakeString`
+
+```typescript
+const kebabToSnakeString = (sourceString: string): string => ...
+```
+
+Converts a kebab-case string to snake_case.
+
+```typescript
+kebabToSnakeString("hello-world");
+// → "hello_world"
 ```
 
 ---
@@ -1239,6 +1552,89 @@ sumNumbersFromArray([1, 2, 3, 4, 5]);
 
 ---
 
+#### `isOddNumber`
+
+```typescript
+const isOddNumber = (value: number): boolean => ...
+```
+
+Checks if a number is odd.
+
+```typescript
+isOddNumber(5);
+// → true
+
+isOddNumber(4);
+// → false
+```
+
+---
+
+#### `isNumberInRange`
+
+```typescript
+const isNumberInRange = (
+  value: number,
+  minimum: number,
+  maximum: number
+): boolean => ...
+```
+
+Checks if a number is within a range (inclusive).
+
+```typescript
+isNumberInRange(5, 1, 10);
+// → true
+
+isNumberInRange(0, 1, 10);
+// → false
+```
+
+---
+
+#### `calculatePercentage`
+
+```typescript
+const calculatePercentage = (
+  value: number,
+  total: number,
+  useAbsoluteValue?: boolean
+): number => ...
+```
+
+Calculates a value as a percentage of a total.
+
+```typescript
+calculatePercentage(10, 20);
+// → 50
+
+calculatePercentage(-10, 20, true);
+// → 50
+```
+
+---
+
+#### `sumNumbersFromArrayByKey`
+
+```typescript
+const sumNumbersFromArrayByKey = <TData>(
+  values: TData[],
+  getKey: (element: TData) => number
+): number => ...
+```
+
+Sums numeric values extracted from an array of objects using a key extractor. Composes with sumNumbersFromArray.
+
+```typescript
+sumNumbersFromArrayByKey(
+  [{ amount: 10 }, { amount: 20 }, { amount: 30 }],
+  (item) => item.amount
+);
+// → 60
+```
+
+---
+
 ### Promise
 
 ---
@@ -1322,6 +1718,92 @@ Type alias for nullable values. Shorthand for `T | null | undefined`.
 ```typescript
 type OptionalName = Nullable<string>;
 // → string | null | undefined
+```
+
+---
+
+#### `MaybeArray<T>`
+
+```typescript
+type MaybeArray<T> = T | T[];
+```
+
+Union type useful for functions that accept a single value or an array.
+
+```typescript
+type Items = MaybeArray<string>;
+// → string | string[]
+```
+
+---
+
+#### `DeepPartial<T>`
+
+```typescript
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+```
+
+Recursive partial type. Makes all properties and nested properties optional.
+
+```typescript
+type User = DeepPartial<{
+  name: string;
+  address: { city: string; zip: number };
+}>;
+// All properties are optional, including nested ones
+```
+
+---
+
+#### `ValueOf<T>`
+
+```typescript
+type ValueOf<T> = T[keyof T];
+```
+
+Extracts the type of values from an object type.
+
+```typescript
+type User = { name: string; age: number };
+type UserValue = ValueOf<User>;
+// → string | number
+```
+
+---
+
+#### `KeysOf<T>`
+
+```typescript
+type KeysOf<T> = keyof T;
+```
+
+Semantic shortcut for `keyof T`. Improves readability in complex generics.
+
+```typescript
+type User = { name: string; age: number };
+type UserKey = KeysOf<User>;
+// → "name" | "age"
+```
+
+---
+
+#### `NonEmptyArray<T>`
+
+```typescript
+type NonEmptyArray<T> = [T, ...T[]];
+```
+
+Tuple type that guarantees at least one element at compile time.
+
+```typescript
+type Users = NonEmptyArray<string>;
+// → [string, ...string[]] - at least one string required
+
+function processUsers(users: NonEmptyArray<string>) {
+  // TypeScript guarantees at least one element exists
+}
 ```
 
 ---
@@ -1455,6 +1937,84 @@ isValidDateString("invalid-date");
 
 ---
 
+#### `isValidCreditCard`
+
+```typescript
+const isValidCreditCard = (value: string): boolean => ...
+```
+
+Validates a credit card number using the Luhn algorithm. Universal — works for Visa, Mastercard, Amex, etc.
+
+```typescript
+isValidCreditCard("4532015112830366");
+// → true
+
+isValidCreditCard("1234567890123456");
+// → false
+```
+
+---
+
+#### `isValidHexColor`
+
+```typescript
+const isValidHexColor = (value: string): boolean => ...
+```
+
+Validates a hexadecimal color code (#RGB or #RRGGBB).
+
+```typescript
+isValidHexColor("#FF0000");
+// → true
+
+isValidHexColor("#F00");
+// → true
+
+isValidHexColor("#GGGGGG");
+// → false
+```
+
+---
+
+#### `isValidIpAddress`
+
+```typescript
+const isValidIpAddress = (
+  value: string,
+  version?: "v4" | "v6" | "any"
+): boolean => ...
+```
+
+Validates an IPv4 or IPv6 address.
+
+```typescript
+isValidIpAddress("192.168.1.1");
+// → true
+
+isValidIpAddress("2001:0db8:85a3:0000:0000:8a2e:0370:7334", "v6");
+// → true
+```
+
+---
+
+#### `isValidUuid`
+
+```typescript
+const isValidUuid = (value: string): boolean => ...
+```
+
+Validates a UUID v4.
+
+```typescript
+isValidUuid("550e8400-e29b-41d4-a716-446655440000");
+// → true
+
+isValidUuid("not-a-uuid");
+// → false
+```
+
+---
+
 ### Date
 
 ---
@@ -1551,6 +2111,111 @@ Calculates the difference in days between two dates.
 ```typescript
 differenceInDays(new Date("2024-01-15"), new Date("2024-01-10"));
 // → 5
+```
+
+---
+
+#### `isSameDay`
+
+```typescript
+const isSameDay = (firstDate: Date, secondDate: Date): boolean => ...
+```
+
+Checks if two dates are the same day, ignoring time.
+
+```typescript
+isSameDay(new Date("2024-01-15T10:00:00Z"), new Date("2024-01-15T22:00:00Z"));
+// → true
+```
+
+---
+
+#### `isDateBefore`
+
+```typescript
+const isDateBefore = (sourceDate: Date, referenceDate: Date): boolean => ...
+```
+
+Checks if a date is before another date.
+
+```typescript
+isDateBefore(new Date("2024-01-10"), new Date("2024-01-15"));
+// → true
+```
+
+---
+
+#### `isDateAfter`
+
+```typescript
+const isDateAfter = (sourceDate: Date, referenceDate: Date): boolean => ...
+```
+
+Checks if a date is after another date.
+
+```typescript
+isDateAfter(new Date("2024-01-15"), new Date("2024-01-10"));
+// → true
+```
+
+---
+
+#### `isWeekend`
+
+```typescript
+const isWeekend = (sourceDate: Date): boolean => ...
+```
+
+Checks if a date is on a weekend (Saturday or Sunday).
+
+```typescript
+isWeekend(new Date("2024-01-13"));
+// → true (Saturday)
+```
+
+---
+
+#### `addWeeks`
+
+```typescript
+const addWeeks = (sourceDate: Date, weeks: number): Date => ...
+```
+
+Adds or subtracts weeks from a date.
+
+```typescript
+addWeeks(new Date("2024-01-01"), 2);
+// → Date for Jan 15, 2024
+```
+
+---
+
+#### `startOfDay`
+
+```typescript
+const startOfDay = (sourceDate: Date): Date => ...
+```
+
+Returns the date with time set to 00:00:00.
+
+```typescript
+startOfDay(new Date("2024-01-15T14:30:00Z"));
+// → Date for 2024-01-15T00:00:00Z
+```
+
+---
+
+#### `endOfDay`
+
+```typescript
+const endOfDay = (sourceDate: Date): Date => ...
+```
+
+Returns the date with time set to 23:59:59.
+
+```typescript
+endOfDay(new Date("2024-01-15T14:30:00Z"));
+// → Date for 2024-01-15T23:59:59Z
 ```
 
 ---
@@ -1807,6 +2472,76 @@ const results = await allSettled([
   Promise.reject('error'),
 ]);
 // [{ status: 'fulfilled', value: 'success' }, { status: 'rejected', reason: 'error' }]
+```
+
+---
+
+### Time
+
+---
+
+#### `sumHoursFromArray`
+
+```typescript
+const sumHoursFromArray = (values: string[], includeSeconds?: boolean): string => ...
+```
+
+Sums an array of time strings. Formats accepted: HH:mm, HH:mm:ss, large totals like 158:58. Invalid entries are ignored.
+
+```typescript
+sumHoursFromArray(["10:30", "05:45", "02:15"]);
+// → "18:30"
+
+sumHoursFromArray(["100:00", "50:00"], true);
+// → "150:00:00"
+```
+
+---
+
+#### `formatHourString`
+
+```typescript
+const formatHourString = (sourceString: string, includeSeconds?: boolean): string | undefined => ...
+```
+
+Normalizes a time string to HH:mm or HH:mm:ss. Returns undefined for invalid input.
+
+```typescript
+formatHourString("9:30");
+// → "09:30"
+
+formatHourString("10:05:30", true);
+// → "10:05:30"
+```
+
+---
+
+#### `convertHoursToMinutes`
+
+```typescript
+const convertHoursToMinutes = (hours: number): number => ...
+```
+
+Converts hours to minutes.
+
+```typescript
+convertHoursToMinutes(2);
+// → 120
+```
+
+---
+
+#### `convertMinutesToHours`
+
+```typescript
+const convertMinutesToHours = (minutes: number): number => ...
+```
+
+Converts minutes to hours.
+
+```typescript
+convertMinutesToHours(90);
+// → 1.5
 ```
 
 ---
