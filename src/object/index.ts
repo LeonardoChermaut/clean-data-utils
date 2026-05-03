@@ -18,3 +18,5 @@ export * from "./deepEqual";
 export * from "./pathExists";
 export * from "./flattenObject";
 export * from "./unflattenObject";
+export * from "./compactObject";
+export * from "./countObjectKeys";
