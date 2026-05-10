@@ -5,3 +5,7 @@ export * from "./pipe";
 export * from "./memoize";
 export * from "./curry";
 export * from "./partial";
+export * from "./measurePerformanceOfFunction";
+export * from "./observeMutationsInElement";
+export * from "./observeIntersectionOfElement";
+export * from "./observeResizeOfElement";

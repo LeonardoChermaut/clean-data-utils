@@ -13,3 +13,4 @@ export * from "./path";
 export * from "./env";
 export * from "./async";
 export * from "./time";
+export * from "./debug";
