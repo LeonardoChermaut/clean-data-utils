@@ -159,6 +159,12 @@ import {
   formatHourString,
   convertHoursToMinutes,
   convertMinutesToHours,
+  showAlertForDebug,
+  logMessageForDebug,
+  measurePerformanceOfFunction,
+  observeMutationsInElement,
+  observeIntersectionOfElement,
+  observeResizeOfElement,
 } from "clean-data-utils";
 ```
 
@@ -1448,6 +1454,86 @@ pipeline(2);
 
 ---
 
+#### `measurePerformanceOfFunction<TArgs, TResult>`
+
+```typescript
+const measurePerformanceOfFunction = <TArgs extends unknown[], TResult>(
+  callback: (...args: TArgs) => TResult,
+  callbackArgs: TArgs,
+): [TResult, number] => ...
+```
+
+Executes a function and measures its synchronous execution time. Returns a tuple with the result and duration in milliseconds.
+
+```typescript
+const [result, duration] = measurePerformanceOfFunction((a, b) => a + b, [10, 20]);
+// → [30, 0.123]
+```
+
+---
+
+#### `observeMutationsInElement`
+
+```typescript
+const observeMutationsInElement = (
+  targetElement: HTMLElement | null | undefined,
+  callback: MutationCallback,
+  options?: MutationObserverInit,
+): (() => void) => ...
+```
+
+Wrapper for `MutationObserver`. Returns a disconnect function.
+
+```typescript
+const stop = observeMutationsInElement(document.body, (mutations) => {
+  console.log("DOM changed!", mutations);
+});
+// later...
+stop();
+```
+
+---
+
+#### `observeIntersectionOfElement`
+
+```typescript
+const observeIntersectionOfElement = (
+  targetElement: HTMLElement | null | undefined,
+  callback: IntersectionObserverCallback,
+  options?: IntersectionObserverInit,
+): (() => void) => ...
+```
+
+Wrapper for `IntersectionObserver`. Returns a disconnect function.
+
+```typescript
+const stop = observeIntersectionOfElement(element, (entries) => {
+  if (entries[0].isIntersecting) console.log("Visible!");
+});
+```
+
+---
+
+#### `observeResizeOfElement`
+
+```typescript
+const observeResizeOfElement = (
+  targetElement: HTMLElement | null | undefined,
+  callback: ResizeObserverCallback,
+  options?: ResizeObserverOptions,
+): (() => void) => ...
+```
+
+Wrapper for `ResizeObserver`. Returns a disconnect function.
+
+```typescript
+const stop = observeResizeOfElement(element, (entries) => {
+  console.log("Resized to:", entries[0].contentRect.width);
+});
+```
+
+---
+
 ### Number
 
 ---
@@ -2542,6 +2628,46 @@ Converts minutes to hours.
 ```typescript
 convertMinutesToHours(90);
 // → 1.5
+```
+
+---
+
+### Debug
+
+---
+
+#### `showAlertForDebug<TContext>`
+
+```typescript
+const showAlertForDebug = <TContext = unknown>(
+  message: string,
+  context?: TContext,
+): void => ...
+```
+
+Shows a browser alert with a debug prefix and optional stringified context.
+
+```typescript
+showAlertForDebug("Something happened", { user: 123 });
+```
+
+---
+
+#### `logMessageForDebug<TContext>`
+
+```typescript
+const logMessageForDebug = <TContext = unknown>(
+  message: string,
+  context?: TContext,
+  level: "log" | "warn" | "error" = "log",
+): void => ...
+```
+
+Logs a formatted message to the console with a timestamp and optional context.
+
+```typescript
+logMessageForDebug("User updated", { id: 1 }, "warn");
+// → [DEBUG] [2024-05-10T...] User updated { id: 1 }
 ```
 
 ---
