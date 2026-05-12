@@ -131,6 +131,7 @@ import {
   timeout,
   timeoutWithPromise,
   parallel,
+  limit,
   sequential,
   allSettled,
   moveElementInArray,
@@ -2521,6 +2522,29 @@ const results = await parallel([
   () => fetch('/api/comments'),
 ], 2);
 // Executes at most 2 at a time
+```
+
+---
+
+#### `limit`
+
+```typescript
+const limit = async <T>(
+  tasks: Array<() => Promise<T>>,
+  concurrency: number
+): Promise<T[]> => ...
+```
+
+Executes an array of async tasks with a specified level of concurrency. Prevents system overload during I/O-bound tasks by queuing promises, making it ideal for managing multiple API requests or file processing.
+
+```typescript
+const results = await limit([
+  () => fetch('/api/users'),
+  () => fetch('/api/posts'),
+  () => fetch('/api/comments'),
+  () => fetch('/api/todos'),
+], 2);
+// Executes at most 2 at a time, results maintain original order
 ```
 
 ---
